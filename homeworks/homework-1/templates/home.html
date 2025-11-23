@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Home - Todo App{% endblock %}
+{% block content %}
+  <a href="{% url 'todo_create' %}">Create Todo</a>
+  <ul>
+    {% for t in todos %}
+      <li>
+        <strong>{{ t.title }}</strong>
+        {% if t.due_date %} — due {{ t.due_date }}{% endif %}
+        {% if t.resolved %} ✅{% endif %}
+        <div>
+          <a href="{% url 'todo_edit' t.pk %}">Edit</a> |
+          <a href="{% url 'toggle_resolved' t.pk %}">{% if t.resolved %}Unresolve{% else %}Resolve{% endif %}</a> |
+          <a href="{% url 'todo_delete' t.pk %}">Delete</a>
+        </div>
+        <p>{{ t.description|linebreaksbr }}</p>
+      </li>
+    {% empty %}
+      <li>No todos yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
