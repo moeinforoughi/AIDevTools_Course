@@ -1,9 +1,21 @@
 {% extends "base.html" %}
+
 {% block content %}
-  <h2>{% if todo %}Edit Todo{% else %}Create Todo{% endif %}</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-  </form>
-  <a href="{% url 'home' %}">Back</a>
+    <h1 class="mb-4">{% if todo %}Edit Todo{% else %}Add New Todo{% endif %}</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ todo.title if todo else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ todo.description if todo else '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="due_date" class="form-label">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date" value="{{ todo.due_date if todo else '' }}">
+        </div>
+        <button type="submit" class="btn btn-success">{% if todo %}Update Todo{% else %}Add Todo{% endif %}</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
 {% endblock %}
